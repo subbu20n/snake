@@ -1,32 +1,32 @@
-name: Generate snake GIF animation
+name: Generate snake animation
 
 on:
-  workflow_dispatch:   # Run manually from Actions tab
   schedule:
-    - cron: "0 */12 * * *"  # Run every 12 hours automatically
+    - cron: "0 */12 * * *"  # every 12 hours
+  workflow_dispatch:
   push:
     branches:
       - main
 
 jobs:
   generate:
-    permissions:
-      contents: write
     runs-on: ubuntu-latest
+    permissions:
+      contents: write  # needed to push files
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Generate snake GIF
-        uses: Platane/snk@v3
+      - name: Generate snake.svg
+        uses: Platane/snk/svg-only@v3
         with:
           github_user_name: ${{ github.repository_owner }}
-          outputs: |
-            dist/snake.gif
+          outputs: dist/snake.svg?palette=github-dark
 
-      - name: Push GIF to output branch
+      - name: Deploy snake.svg to output branch
         uses: crazy-max/ghaction-github-pages@v3.1.0
         with:
           target_branch: output
