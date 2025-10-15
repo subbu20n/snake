@@ -1,0 +1,9 @@
+name: release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: |
+          New version for the release.
+          Format: <major>.<minor>.<patch> (e.g., 1.0.0 or
